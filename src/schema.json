@@ -1,0 +1,40 @@
+{
+  "type": "object",
+  "properties": {
+    "whitelist": {
+      "title": "Whitelist of Apps and Filters",
+      "description": "Carry over a filtered set of the user's cookies to whitelisted participating apps. An empty whitelist will result in the default behavior which is to block all incoming requests and not hand any cookies. Only whitelist apps you fully trust with the user's data. Also please ensure you have all proper consent forms placed for your users as you are granting permissions to certain apps on their behalf and the system will not show the end users any consent forms once permission is granted via admin policy. For more details on filter options, please see https://developer.chrome.com/extensions/cookies#method-getAll. Filters are applied one at a time and not in conjunction. Absence of any filters will return no cookies at all.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "appId": { 
+              "title": "Whitelisted App ID",
+              "description": "ID of the app that the admin wishes to grant a subset of the user's cookies to. Duplicate appIds will be ignored; only the first entry is considered.",
+              "type": "string"
+          },
+          "domain": { 
+            "title": "Domain for granted cookies",
+            "description": "A domain for which the helper extension will extract cookies from the user's profile and hand over to requesting appId. This can be further refined by the admin with criteria for cookie name, URL, and path.",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name for granted cookies",
+            "description": "A name for which the helper extension will filter the cookies from the user's profile and hand over to requesting appId.",
+            "type": "string"
+          },
+          "path": {
+            "title": "Path for granted cookies",
+            "description": "A path for which the helper extension will filter the cookies from the user's profile and hand over to requesting appId.",
+            "type": "string"
+          },
+          "url": {
+            "title": "URL for granted cookies",
+            "description": "A url for which the helper extension will filter the cookies from the user's profile and hand over to requesting appId.",
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
