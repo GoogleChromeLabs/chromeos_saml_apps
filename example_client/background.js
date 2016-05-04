@@ -1,25 +1,26 @@
-chrome.app.runtime.onLaunched.addListener(function() {
-  chrome.runtime.sendMessage(
-    "ehapbialhheepabljbafehmdmhlgmabf",
-    { method: "getAllCookies" },
-    function(response) { console.log(response); }
-  );
+(function() {
+/**
+ * Listens for the app launching then creates the window
+ *
+ * @see http://developer.chrome.com/apps/app.runtime.html
+ */
+chrome.app.runtime.onLaunched.addListener(runApp);
+chrome.app.runtime.onRestarted.addListener(runApp);
 
-  chrome.runtime.sendMessage(
-    "ehapbialhheepabljbafehmdmhlgmabf",
-    "bad message!",
-    function(response) { console.log(response); }
-  );
-  
-  chrome.runtime.sendMessage(
-    "gknaegibklhojbihiflaaihhfieiajbc",
-    { method: "getAllCookies" },
-    function(response) { console.log(response); }
-  );
+/**
+ * Creates the window for the application.
+ *
+ * @see http://developer.chrome.com/apps/app.window.html
+ */
+function runApp() {
+  chrome.app.window.create('webview.html', {
+  	id: "webview",
+    innerBounds: {
+      'width': 1024,
+      'height': 768
+    }
+  });
+}
 
-  chrome.runtime.sendMessage(
-    "gknaegibklhojbihiflaaihhfieiajbc",
-    "bad message!",
-    function(response) { console.log(response); }
-  );
-});
+
+})();

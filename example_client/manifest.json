@@ -1,11 +1,13 @@
 {
-  "name": "SAML SSO Example Client",
-  "description": "Test app to get cookies from helper.",
-  "version": "0.3",
+  "name": "Example webview client",
   "manifest_version": 2,
+  "version": "0.1",
   "app": {
     "background": {
       "scripts": ["background.js"]
     }
-  }
+  },
+  "permissions": [
+    "webview"
+  ]
 }
