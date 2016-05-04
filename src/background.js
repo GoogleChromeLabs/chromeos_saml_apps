@@ -43,9 +43,10 @@ chrome.runtime.onMessageExternal.addListener(
     request= request || {};
     if (request.method === "getAllCookies") {
       chrome.storage.managed.get(function(configuration) {
-        getAllCookies({ 
+        if (!configuration.whitelist) configuration.whitelist= [];
+        getAllCookies({
           appId: sender.id,
-          configuration: configuration, // TODO what does Chrome give if no policy was entered by the admin?
+          configuration: configuration,
           callback: sendResponse
         });
       });
