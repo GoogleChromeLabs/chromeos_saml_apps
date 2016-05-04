@@ -4,7 +4,9 @@ Admins can force-install this helper extension to carry over a filtered set of t
 
 
 ## Example admin configuration
-After configuring this extension to force-install on Chrome devices, upload the suitable configuration into the admin console so that the proper cookie permissions are granted to the whitelisted apps. The full schema can be found in schema.json. Note that the primary filter is always the domain. Cookie names, URLs, and paths, are all secondary parameters that will be applied *in addition* to the domain filtering. An entry with no domain provided will not return any cookies.
+After configuring this extension to force-install on Chrome devices, upload the suitable configuration into the admin console so that the proper cookie permissions are granted to the whitelisted apps. This can be done by navigating directly to [the App Management URL](https://admin.google.com/AdminHome?fral=1#ChromeAppDetails:appId=ehapbialhheepabljbafehmdmhlgmabf&appType=CHROME&flyout=reg).
+
+The full schema can be found in schema.json. Note that the primary filter is always the domain. Cookie names, URLs, and paths, are all secondary parameters that will be applied *in addition* to the domain filtering. An entry with no domain provided will not return any cookies.
 
 An example configuration:
 
