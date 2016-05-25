@@ -148,32 +148,11 @@
     });
   };
 
-  var testSecondaryFilteringByUrlReturnsScopedCookies= function(pass, fail) {
-    var params= TestUtils.aParams({
-      "whitelist": [{
-          "appId": chrome.runtime.id,
-          "domain": "mytesturl.com",
-          "url": "https://prefix.mytesturl.com"
-        }]
-    });
-
-    TestUtils.setCookie("https://mytesturl.com", "mytesturl.com", "Name 1", "expected")
-    .then(function() { return TestUtils.setCookie("https://someotherurl.com", "someotherurl.com", "Name 2", "wrong"); })
-    .then(function() { return TestUtils.getCookies(params); })
-    .then(function(response) {
-      TestUtils.assert(response.cookies.length === 1);
-      TestUtils.assert(response.cookies[0].value === "expected");
-
-      pass("Passed: Domain filter can be scoped by URL parameter");
-    });
-  };
-
   var testGoogleDomainCookiesAreFilteredOut= function(pass, fail) {
         var params= TestUtils.aParams({
       "whitelist": [{
           "appId": chrome.runtime.id,
-          "domain": "google.com",
-          "url": "https://google.com"
+          "domain": "google.com"
         }]
     });
 

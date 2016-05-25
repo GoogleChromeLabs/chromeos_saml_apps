@@ -2,8 +2,8 @@
  * Calls for admin provided whitelist and uses that to extract all
  * user cookies that are allowed for app with appId.
  * 
- * Filters are applied one at a time and not in conjunction. 
- * Absence of any filters will return no cookies at all.
+ * Filters are applied jointly with domain being the primary filter 
+ * and all other parameters forming secondary filters in addtiion.
  * 
  * @params {object} params An object containing 
  *      1. the appId of the caller
@@ -22,7 +22,6 @@ var getAllCookies= function(params) {
     var details= { domain: allowedEntry.domain };
     if (allowedEntry.name) details.name= allowedEntry.name;
     if (allowedEntry.path) details.path= allowedEntry.path;
-    if (allowedEntry.url) details.url= allowedEntry.url;
 
     combinedPromises.push(new Promise(function(resolve, reject) {
       chrome.cookies.getAll(details, resolve);

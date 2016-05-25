@@ -27,11 +27,6 @@
             "title": "Path for granted cookies",
             "description": "A path for which the helper extension will filter the cookies from the user's profile and hand over to requesting appId.",
             "type": "string"
-          },
-          "url": {
-            "title": "URL for granted cookies",
-            "description": "A url for which the helper extension will filter the cookies from the user's profile and hand over to requesting appId.",
-            "type": "string"
           }
         }
       }
