@@ -27,6 +27,11 @@
             "title": "Path for granted cookies",
             "description": "A path for which the helper extension will filter the cookies from the user's profile and hand over to requesting appId.",
             "type": "string"
+          },
+          "secure": {
+            "title": "Secure property for granted cookies",
+            "description": "The Secure property for which the helper extension will filter the cookies from the user's profile and hand over to requesting appId.",
+            "type": "boolean"
           }
         }
       }

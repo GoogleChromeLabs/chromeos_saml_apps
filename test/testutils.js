@@ -1,6 +1,6 @@
 var TestUtils= {};
 
-TestUtils.HELPER_ID= "hplmjanffcfhhpnkpdgngnpkdnhbolll";
+TestUtils.HELPER_ID= "kfkhjjhdkbbepiikipoekefhoojlijlg";
 
 TestUtils.getCookies= function(params) {
   return new Promise(function(resolve) {
@@ -8,14 +8,14 @@ TestUtils.getCookies= function(params) {
   });
 };
 
-TestUtils.setCookie= function(url, domain, name, value) {
+TestUtils.setCookie= function(url, domain, name, value, secure) {
   return new Promise(function(resolve) {
     chrome.cookies.set({ 
       url: url,
       domain: domain,
       value: value,
       name: name,
-      secure: true
+      secure: secure === undefined ? true : secure
     }, resolve);
   });
 };

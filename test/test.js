@@ -144,7 +144,7 @@
       TestUtils.assert(response.cookies.length === 1);
       TestUtils.assert(response.cookies[0].path === "/this/one/here");
 
-      pass("Passed: Domain filter can be scoped by secondary Name parameter");
+      pass("Passed: Domain filter can be scoped by secondary path parameter");
     });
   };
 
@@ -176,7 +176,6 @@
   .then(TestUtils.testCase(testNoDomainInFilterReturnsNoCookies))
   .then(TestUtils.testCase(testSecondaryFilteringByNameReturnsScopedCookies))
   .then(TestUtils.testCase(testSecondaryFilteringByPathReturnsScopedCookies))
-  .then(TestUtils.testCase(testSecondaryFilteringByUrlReturnsScopedCookies))
   .then(TestUtils.testCase(testGoogleDomainCookiesAreFilteredOut))
   .then(function() { TestUtils.displayResult("All Tests Passed!"); });
 })();
