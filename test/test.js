@@ -81,6 +81,27 @@
     });
   };
 
+  var testSingleDomainFilterWithPrefixedDotReturnsMultipleCookies= function(pass, fail) {
+    var params= TestUtils.aParams({
+      "whitelist": [{
+          "appId": chrome.runtime.id,
+          "domain": ".mytesturl.com"
+        }]
+    });
+
+    TestUtils.setCookie("https://test.mytesturl.com", "mytesturl.com", "Name 1", "value1")
+    .then(function() { return TestUtils.setCookie("https://test.mytesturl.com", "mytesturl.com", "Name 2", "value2"); })
+    .then(function() { return TestUtils.setCookie("https://some.otherurl.com", "otherurl.com", "Other Name", "othervalue"); })
+    .then(function() { return TestUtils.getCookies(params); })
+    .then(function(response) {
+      TestUtils.assert(response.cookies.length === 2);
+      TestUtils.assert(response.cookies[0].value === "value1");
+      TestUtils.assert(response.cookies[1].value === "value2");
+
+      pass("Passed: Domain filter returns proper cookies with single domain filter prefixed with dot");
+    });
+  };
+
   var testMultipleDomainFilterReturnsMultipleCookies= function(pass, fail) {
     var params= TestUtils.aParams({
       "whitelist": [{
@@ -185,15 +206,18 @@
     });
   };
 
-  Promise.resolve("Start Tests")
-  .then(TestUtils.testCase(testBadMessageReturnsErrorJson))
-  .then(TestUtils.testCase(testNoAppIdReturnsNoCookies))
-  .then(TestUtils.testCase(testAppIdNotInWhitelistReturnsNoCookies))
-  .then(TestUtils.testCase(testSingleDomainFilterReturnsMultipleCookies))
-  .then(TestUtils.testCase(testMultipleDomainFilterReturnsMultipleCookies))
-  .then(TestUtils.testCase(testNoDomainInFilterReturnsNoCookies))
-  .then(TestUtils.testCase(testSecondaryFilteringByNameReturnsScopedCookies))
-  .then(TestUtils.testCase(testSecondaryFilteringByPathReturnsScopedCookies))
-  .then(TestUtils.testCase(testGoogleDomainCookiesAreFilteredOut))
-  .then(function() { TestUtils.displayResult("All Tests Passed!"); });
+  document.getElementById("startBtn").addEventListener("click", function() {
+    Promise.resolve("Start Tests")
+      .then(TestUtils.testCase(testBadMessageReturnsErrorJson))
+      .then(TestUtils.testCase(testNoAppIdReturnsNoCookies))
+      .then(TestUtils.testCase(testAppIdNotInWhitelistReturnsNoCookies))
+      .then(TestUtils.testCase(testSingleDomainFilterReturnsMultipleCookies))
+      .then(TestUtils.testCase(testSingleDomainFilterWithPrefixedDotReturnsMultipleCookies))
+      .then(TestUtils.testCase(testMultipleDomainFilterReturnsMultipleCookies))
+      .then(TestUtils.testCase(testNoDomainInFilterReturnsNoCookies))
+      .then(TestUtils.testCase(testSecondaryFilteringByNameReturnsScopedCookies))
+      .then(TestUtils.testCase(testSecondaryFilteringByPathReturnsScopedCookies))
+      .then(TestUtils.testCase(testGoogleDomainCookiesAreFilteredOut))
+      .then(function() { TestUtils.displayResult("All Tests Passed!"); });
+  });
 })();
