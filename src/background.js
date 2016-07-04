@@ -39,6 +39,7 @@ var getAllCookies= function(params) {
     if (allowedEntry.path) details.path= allowedEntry.path;
     if (allowedEntry.secure !== undefined) details.secure= allowedEntry.secure;
 
+    details.storeId = "0";  // Needed otherwise result is empty list if call is made before a browser tab is opened. Probably some strange Chrome-ChromeOS interaction bug.
     combinedPromises.push(new Promise(function(resolve, reject) {
       chrome.cookies.getAll(details, resolve);
     }));
