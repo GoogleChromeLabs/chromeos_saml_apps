@@ -31,28 +31,26 @@ var getAllCookies= function(params) {
 
   if (!allowed || allowed.length === 0) return params.callback({ cookies: [] });
   
-  chrome.permissions.request({ origins: allowed.map(function(allowedEntry) { return allowedEntry.domain ? ("https://*." + allowedEntry.domain + "/") : ""; }) }, function() {
-    allowed.forEach(function(allowedEntry) {
-      if (!allowedEntry.domain) return; // Domain required as primary filter
-  
-      var details= { domain: allowedEntry.domain };
-      if (allowedEntry.name) details.name= allowedEntry.name;
-      if (allowedEntry.path) details.path= allowedEntry.path;
-      if (allowedEntry.secure !== undefined) details.secure= allowedEntry.secure;
-  
-      details.storeId = "0";  // Needed otherwise result is empty list if call is made before a browser tab is opened. Probably some strange Chrome-ChromeOS interaction bug.
-      combinedPromises.push(new Promise(function(resolve, reject) {
-        chrome.cookies.getAll(details, resolve);
-      }));
-    });
-  
-    Promise.all(combinedPromises).then(function(combinedResponses) {
-      combinedResponses= combinedResponses
-                          .reduce(function(prev, cur) { return prev.concat(cur); }, [])  // flatten multuple responses into single array
-                          .filter(function(cookieResponse) { return cookieResponse.domain.indexOf("google.") === -1; });  // filter Google top level deomains. This will also filter SAML IdPs that fall undewr this pattern but it is worth the resulting code simplification
-  
-      params.callback({ cookies: combinedResponses });
-    });
+  allowed.forEach(function(allowedEntry) {
+    if (!allowedEntry.domain) return; // Domain required as primary filter
+
+    var details= { domain: allowedEntry.domain };
+    if (allowedEntry.name) details.name= allowedEntry.name;
+    if (allowedEntry.path) details.path= allowedEntry.path;
+    if (allowedEntry.secure !== undefined) details.secure= allowedEntry.secure;
+
+    details.storeId = "0";  // Needed otherwise result is empty list if call is made before a browser tab is opened. Probably some strange Chrome-ChromeOS interaction bug.
+    combinedPromises.push(new Promise(function(resolve, reject) {
+      chrome.cookies.getAll(details, resolve);
+    }));
+  });
+
+  Promise.all(combinedPromises).then(function(combinedResponses) {
+    combinedResponses= combinedResponses
+                        .reduce(function(prev, cur) { return prev.concat(cur); }, [])  // flatten multuple responses into single array
+                        .filter(function(cookieResponse) { return cookieResponse.domain.indexOf("google.") === -1; });  // filter Google top level deomains. This will also filter SAML IdPs that fall undewr this pattern but it is worth the resulting code simplification
+
+    params.callback({ cookies: combinedResponses });
   });
 };
 

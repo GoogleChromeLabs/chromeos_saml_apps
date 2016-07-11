@@ -15,7 +15,7 @@
  */
 var TestUtils= {};
 
-TestUtils.HELPER_ID= "kfkhjjhdkbbepiikipoekefhoojlijlg";
+TestUtils.HELPER_ID= "efloepbegjfnahghcfpnbkdljabmgnni";
 
 TestUtils.getCookies= function(params) {
   return new Promise(function(resolve) {

@@ -1,16 +1,14 @@
 {
   "name": "SAML SSO for Chrome Apps",
   "description": "Helper extension for admins to configure SAML SSO for Chrome apps.",
-  "version": "0.8",
+  "version": "0.9",
   "manifest_version": 2,
   "storage": {
     "managed_schema": "schema.json"
   },
   "permissions": [
     "cookies",
-    "storage"
-  ],
-  "optional_permissions": [
+    "storage",
     "https://*/*"
   ],
   "background": {
