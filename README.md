@@ -18,6 +18,8 @@ chrome.runtime.sendMessage(
 ## Using acquired cookies
 Once the Chrome App has the relevant authentication cookies, it can attach them to outgoing requests on its hosted webview using the various methods available from webview's [Web Request interface](https://developer.chrome.com/apps/tags/webview#type-WebRequestEventInterface).
 
+While this is largely dependent on the authentication flow hosted by the app, we provide an [example client](https://github.com/GoogleChrome/chromeos_saml_apps/tree/master/third_party/example) that receives the cookies and saves them to a hosted webview's cookie store by appending *Set-Cookie* headers on incoming requests with the values of these SAML cookies.
+
 ## Whitelisting apps and domains
 The *SAML SSO for Chrome Apps* has to be both force-installed and configured for user accounts. This can be done by navigating directly to [the App Management URL](https://admin.google.com/AdminHome?fral=1#ChromeAppDetails:appId=aoggjnmghgmcllfenalipjhmooomfdce&appType=CHROME&flyout=reg) corresponding to this extension.
 

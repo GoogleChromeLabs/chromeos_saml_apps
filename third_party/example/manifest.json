@@ -1,0 +1,14 @@
+{
+  "manifest_version": 2,
+  "name": "Example webview client",
+  "minimum_chrome_version": "24.0.1307.0",
+  "version": "1.0.0",
+  "app": {
+    "background": {
+      "scripts": ["background.js"]
+    }
+  },
+  "permissions": [
+    "webview"
+  ]
+}
