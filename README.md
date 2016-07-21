@@ -46,7 +46,7 @@ The full schema of possible configurations can be found in [schema.json](https:/
   }
 }
 ```
-More details can be found on the [Chrome for Work support pages](https://support.google.com/chrome/a/topic/6274255).
+More details can be found on the [Chrome for Work support page](https://support.google.com/chrome/a/answer/7064180).
 
 ## Android Runtime for Chrome
 Apps developed with [Android Runtime for Chrome](https://developer.chrome.com/apps/getstarted_arc) can also get access to those cookies. They can communicate with the Chrome SSO extension via a special Android intent.
