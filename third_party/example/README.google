@@ -1,0 +1,8 @@
+URL: N/A
+Version: 1.0.0
+License: Apache 2.0
+License File: LICENSE
+Description:
+Example app showing usage of cookies received from the extension in a Chrome app's hosted webview.
+Local Modifications:
+No modifications.
