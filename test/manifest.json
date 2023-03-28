@@ -1,11 +1,13 @@
 {
   "name": "SAML SSO Test Runner Extension",
   "description": "Test extension with HTML and JS runner",
-  "version": "0.1",
-  "manifest_version": 2,
-    "permissions": [
+  "version": "0.2",
+  "manifest_version": 3,
+  "permissions": [
     "cookies",
-    "storage",
+    "storage"
+  ],
+  "host_permissions": [
     "https://*/*"
   ]
 }

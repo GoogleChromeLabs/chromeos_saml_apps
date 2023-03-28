@@ -47,8 +47,7 @@ var getAllCookies= function(params) {
 
   Promise.all(combinedPromises).then(function(combinedResponses) {
     combinedResponses= combinedResponses
-                        .reduce(function(prev, cur) { return prev.concat(cur); }, [])  // flatten multuple responses into single array
-                        .filter(function(cookieResponse) { return cookieResponse.domain.indexOf("google.") === -1; });  // filter Google top level deomains. This will also filter SAML IdPs that fall undewr this pattern but it is worth the resulting code simplification
+      .reduce(function (prev, cur) { return prev.concat(cur); }, []);  // flatten multuple responses into single array
 
     params.callback({ cookies: combinedResponses });
   });
