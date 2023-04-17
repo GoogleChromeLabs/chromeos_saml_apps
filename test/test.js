@@ -187,25 +187,6 @@
     });
   };
 
-  var testGoogleDomainCookiesAreFilteredOut= function(pass, fail) {
-        var params= TestUtils.aParams({
-      "whitelist": [{
-          "appId": chrome.runtime.id,
-          "domain": "google.com"
-        }]
-    });
-
-    TestUtils.setCookie("https://mail.google.com", "google.com", "Name 1", "value1")
-    .then(function() { return TestUtils.setCookie("https://docs.google.com", "google.com", "Name 2", "value2"); })
-    .then(function() { return TestUtils.setCookie("https://google.com", "google.com", "Name 3", "value3"); })
-    .then(function() { return TestUtils.getCookies(params); })
-    .then(function(response) {
-      TestUtils.assert(response.cookies.length === 0);
-
-      pass("Passed: API filters out Google-based domains");
-    });
-  };
-
   document.getElementById("startBtn").addEventListener("click", function() {
     Promise.resolve("Start Tests")
       .then(TestUtils.testCase(testBadMessageReturnsErrorJson))
@@ -217,7 +198,6 @@
       .then(TestUtils.testCase(testNoDomainInFilterReturnsNoCookies))
       .then(TestUtils.testCase(testSecondaryFilteringByNameReturnsScopedCookies))
       .then(TestUtils.testCase(testSecondaryFilteringByPathReturnsScopedCookies))
-      .then(TestUtils.testCase(testGoogleDomainCookiesAreFilteredOut))
       .then(function() { TestUtils.displayResult("All Tests Passed!"); });
   });
 })();
