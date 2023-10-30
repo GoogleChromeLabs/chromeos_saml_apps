@@ -52,6 +52,17 @@ TestUtils.assert= function(condition, msg) {
   if (!condition) throw new Error(msg);
 };
 
+TestUtils.assertCookieValues= function(cookies, values) {
+  const sortedCookies = cookies.map(cookie => cookie.value).sort();
+  const sortedValues = [... values].sort();
+
+  TestUtils.assert(sortedCookies.length === sortedValues.length, `Expected the following cookie values: ${JSON.stringify(sortedValues)}, but got ${JSON.stringify(sortedCookies)}.`);
+
+  for (let i = 0; i < sortedCookies.length; ++i) {
+    TestUtils.assert(sortedCookies[i] === sortedValues[i], `Error while comparing cookie ${i}: ${sortedCookies[i]} != ${sortedValues[i]}`);
+  }
+};
+
 TestUtils.testCase= function(testFn) {
   return function() {
     console.log("Started test case"); 
