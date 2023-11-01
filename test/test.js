@@ -73,11 +73,27 @@
     .then(function() { return TestUtils.setCookie("https://some.otherurl.com", "otherurl.com", "Other Name", "othervalue"); })
     .then(function() { return TestUtils.getCookies(params); })
     .then(function(response) {
-      TestUtils.assert(response.cookies.length === 2);
-      TestUtils.assert(response.cookies[0].value === "value1");
-      TestUtils.assert(response.cookies[1].value === "value2");
+      TestUtils.assertCookieValues(response.cookies, ["value1", "value2"]);
 
       pass("Passed: Domain filter returns proper cookies with single domain filter");
+    });
+  };
+
+  var testReturnsUnsecureAndSecureCookies= function(pass, fail) {
+    var params= TestUtils.aParams({
+      "whitelist": [{
+          "appId": chrome.runtime.id,
+          "domain": "mytesturl.com"
+        }]
+    });
+
+    TestUtils.setCookie("https://test.mytesturl.com", "mytesturl.com", "Name 1", "value1", true)
+    .then(function() { return TestUtils.setCookie("https://test.mytesturl.com", "mytesturl.com", "Name 2", "value2", false); })
+    .then(function() { return TestUtils.getCookies(params); })
+    .then(function(response) {
+      TestUtils.assertCookieValues(response.cookies, ["value1", "value2"]);
+
+      pass("Passed: Returns both secure and unsecure cookies");
     });
   };
 
@@ -94,9 +110,7 @@
     .then(function() { return TestUtils.setCookie("https://some.otherurl.com", "otherurl.com", "Other Name", "othervalue"); })
     .then(function() { return TestUtils.getCookies(params); })
     .then(function(response) {
-      TestUtils.assert(response.cookies.length === 2);
-      TestUtils.assert(response.cookies[0].value === "value1");
-      TestUtils.assert(response.cookies[1].value === "value2");
+      TestUtils.assertCookieValues(response.cookies, ["value1", "value2"]);
 
       pass("Passed: Domain filter returns proper cookies with single domain filter prefixed with dot");
     });
@@ -120,10 +134,7 @@
     .then(function() { return TestUtils.setCookie("https://wrongotherurl.com", "wrongotherurl.com", "Wrong Name", "wrong"); })
     .then(function() { return TestUtils.getCookies(params); })
     .then(function(response) {
-      TestUtils.assert(response.cookies.length === 3);
-      TestUtils.assert(response.cookies[0].value === "value1");
-      TestUtils.assert(response.cookies[1].value === "value2");
-      TestUtils.assert(response.cookies[2].value === "othervalue");
+      TestUtils.assertCookieValues(response.cookies, ["value1", "value2", "othervalue"]);
 
       pass("Passed: Domain filter returns proper cookies with multiple domain filters");
     });
@@ -193,6 +204,7 @@
       .then(TestUtils.testCase(testNoAppIdReturnsNoCookies))
       .then(TestUtils.testCase(testAppIdNotInWhitelistReturnsNoCookies))
       .then(TestUtils.testCase(testSingleDomainFilterReturnsMultipleCookies))
+      .then(TestUtils.testCase(testReturnsUnsecureAndSecureCookies))
       .then(TestUtils.testCase(testSingleDomainFilterWithPrefixedDotReturnsMultipleCookies))
       .then(TestUtils.testCase(testMultipleDomainFilterReturnsMultipleCookies))
       .then(TestUtils.testCase(testNoDomainInFilterReturnsNoCookies))
