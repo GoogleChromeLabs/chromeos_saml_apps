@@ -79,24 +79,6 @@
     });
   };
 
-  var testReturnsUnsecureAndSecureCookies= function(pass, fail) {
-    var params= TestUtils.aParams({
-      "whitelist": [{
-          "appId": chrome.runtime.id,
-          "domain": "mytesturl.com"
-        }]
-    });
-
-    TestUtils.setCookie("https://test.mytesturl.com", "mytesturl.com", "Name 1", "value1", true)
-    .then(function() { return TestUtils.setCookie("https://test.mytesturl.com", "mytesturl.com", "Name 2", "value2", false); })
-    .then(function() { return TestUtils.getCookies(params); })
-    .then(function(response) {
-      TestUtils.assertCookieValues(response.cookies, ["value1", "value2"]);
-
-      pass("Passed: Returns both secure and unsecure cookies");
-    });
-  };
-
   var testSingleDomainFilterWithPrefixedDotReturnsMultipleCookies= function(pass, fail) {
     var params= TestUtils.aParams({
       "whitelist": [{
@@ -198,18 +180,56 @@
     });
   };
 
+  var testReturnsUnsecureAndSecureCookies = function (pass, fail) {
+    var params = TestUtils.aParams({
+      "whitelist": [{
+        "appId": chrome.runtime.id,
+        "domain": "mytesturl.com"
+      }]
+    });
+
+    TestUtils.setCookie("https://test.mytesturl.com", "mytesturl.com", "Name 1", "value1", true)
+      .then(function () { return TestUtils.setCookie("https://test.mytesturl.com", "mytesturl.com", "Name 2", "value2", false); })
+      .then(function () { return TestUtils.getCookies(params); })
+      .then(function (response) {
+        TestUtils.assertCookieValues(response.cookies, ["value1", "value2"]);
+
+        pass("Passed: Secure filter returns both secure and non-secure if filter is omitted");
+      });
+  };
+
+  var testSecureFilterReturnsSecureCookiesOnly = function (pass, fail) {
+    var params = TestUtils.aParams({
+      "whitelist": [{
+        "appId": chrome.runtime.id,
+        "domain": "mytesturl.com",
+        "secure": true
+      }]
+    });
+
+    TestUtils.setCookie("https://test.mytesturl.com", "mytesturl.com", "Name 1", "value1", true)
+      .then(function () { return TestUtils.setCookie("https://test.mytesturl.com", "mytesturl.com", "Name 2", "value2", false); })
+      .then(function () { return TestUtils.getCookies(params); })
+      .then(function (response) {
+        TestUtils.assertCookieValues(response.cookies, ["value1"]);
+
+        pass("Passed: Secure filter returns secure cookies only");
+      });
+  };
+
   document.getElementById("startBtn").addEventListener("click", function() {
     Promise.resolve("Start Tests")
       .then(TestUtils.testCase(testBadMessageReturnsErrorJson))
       .then(TestUtils.testCase(testNoAppIdReturnsNoCookies))
       .then(TestUtils.testCase(testAppIdNotInWhitelistReturnsNoCookies))
       .then(TestUtils.testCase(testSingleDomainFilterReturnsMultipleCookies))
-      .then(TestUtils.testCase(testReturnsUnsecureAndSecureCookies))
       .then(TestUtils.testCase(testSingleDomainFilterWithPrefixedDotReturnsMultipleCookies))
       .then(TestUtils.testCase(testMultipleDomainFilterReturnsMultipleCookies))
       .then(TestUtils.testCase(testNoDomainInFilterReturnsNoCookies))
       .then(TestUtils.testCase(testSecondaryFilteringByNameReturnsScopedCookies))
       .then(TestUtils.testCase(testSecondaryFilteringByPathReturnsScopedCookies))
+      .then(TestUtils.testCase(testReturnsUnsecureAndSecureCookies))
+      .then(TestUtils.testCase(testSecureFilterReturnsSecureCookiesOnly))
       .then(function() { TestUtils.displayResult("All Tests Passed!"); });
   });
 })();
