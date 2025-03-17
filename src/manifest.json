@@ -23,6 +23,7 @@
     "128": "icon128.png" 
   },
   "externally_connectable": {
-    "matches": ["isolated-app://*/*"]
+    "matches": ["isolated-app://*/*"],
+    "ids": ["*"]
   }
 }
