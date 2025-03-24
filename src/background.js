@@ -53,6 +53,11 @@ var getAllCookies= function(params) {
   });
 };
 
+var isolatedWebAppId = function(origin) {
+  var match = origin.match(/^isolated-app:\/\/(.+)$/);
+  return match && match[1];
+};
+
 chrome.runtime.onMessageExternal.addListener(
   function(request, sender, sendResponse) {
     request= request || {};
@@ -60,7 +65,7 @@ chrome.runtime.onMessageExternal.addListener(
       chrome.storage.managed.get(function(configuration) {
         if (!configuration.whitelist) configuration.whitelist= [];
         getAllCookies({
-          appId: sender.id,
+          appId: sender.id || isolatedWebAppId(sender.origin),
           configuration: configuration,
           callback: sendResponse
         });
